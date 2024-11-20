@@ -1,0 +1,79 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Creates Subnets
+
+Parameters:
+  VPCName:
+    Description: The name of the VPC being created.
+    Type: String
+    Default: VPC Public and Private with NAT
+
+Mappings:
+  SubnetConfig:
+    VPC:
+      CIDR: 10.0.0.0/16
+    Public0:
+      CIDR: 10.0.0.0/24
+    Private0:
+      CIDR: 10.0.2.0/24
+
+Resources:
+  PublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !ImportValue VPCId
+      AvailabilityZone: !Select [ 0, !GetAZs ]
+      CidrBlock: !FindInMap
+        - SubnetConfig
+        - Public0
+        - CIDR
+      MapPublicIpOnLaunch: "true"
+      Tags:
+        - Key: Application
+          Value: !Ref AWS::StackName
+        - Key: Network
+          Value: Public
+        - Key: Name
+          Value: !Join
+            - ""
+            - - !Ref VPCName
+              - -public-
+              - !Select
+                - 0
+                - !GetAZs
+
+  PrivateSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !ImportValue VPCId
+      AvailabilityZone: !Select [ 0, !GetAZs ]
+      CidrBlock: !FindInMap
+        - SubnetConfig
+        - Private0
+        - CIDR
+      Tags:
+        - Key: Application
+          Value: !Ref AWS::StackName
+        - Key: Network
+          Value: Private
+        - Key: Name
+          Value: !Join
+            - ""
+            - - !Ref VPCName
+              - -private-
+              - !Select
+                - 0
+                - !GetAZs
+
+Outputs:
+  PublicSubnetId:
+    Description: Id of public subnet 
+    Value: !Ref PublicSubnet
+    Export:
+      Name: PublicSubnetId
+
+  PrivateSubnetId:
+    Description: Id of private subnet
+    Value: !Ref PrivateSubnet
+    Export:
+      Name: PrivateSubnetId

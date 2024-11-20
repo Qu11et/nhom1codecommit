@@ -1,0 +1,41 @@
+project:
+  name: test-cloudformation
+  regions:
+    - us-east-1
+  s3_bucket: nhom1awsbucket
+tests:
+  test-vpc:
+    template: ./vpc.yaml
+    parameters:
+      InstanceType: t2.micro
+      KeyName: nhom1 
+
+  test-subnets:
+    template: ./subnets.yaml
+    parameters:
+      InstanceType: t2.micro
+      KeyName: nhom1 
+
+  test-security-groups:
+    template: ./security_groups.yaml
+    parameters:
+      InstanceType: t2.micro
+      KeyName: nhom1 
+
+  test-natgateways:
+    template: ./natgateways.yaml
+    parameters:
+      InstanceType: t2.micro
+      KeyName: nhom1  
+
+  test-route_tables:
+    template: ./route_tables.yaml
+    parameters:
+      InstanceType: t2.micro
+      KeyName: nhom1 
+
+  test-ec2_instances:
+    template: ./ec2_instances.yaml
+    parameters:
+      InstanceType: t2.micro
+      KeyName: nhom1 

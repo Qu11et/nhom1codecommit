@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Create Pubclic and Private Security Groups
+
+Parameters:
+  UserIP:
+    Description: The IP address from which SSH access is allowed
+    Type: String
+    Default: 0.0.0.0/0  # Replace with the specific IP or CIDR block
+
+Resources:
+  PublicInstanceSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Allow SSH access from a specific IP
+      VpcId: !ImportValue VPCId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: !Ref UserIP
+
+  PrivateInstanceSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Allow SSH access from the public instance
+      VpcId: !ImportValue VPCId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          SourceSecurityGroupId: !Ref PublicInstanceSecurityGroup
+
+Outputs:
+  PublicInstanceSecurityGroupId:
+    Description: PublicInstanceSecurityGroup Id
+    Value: !Ref PublicInstanceSecurityGroup
+    Export:
+      Name: PublicInstanceSecurityGroupId
+
+  PrivateInstanceSecurityGroupId:
+    Description: PrivateInstanceSecurityGroup Id
+    Value: !Ref PrivateInstanceSecurityGroup
+    Export:
+      Name: PrivateInstanceSecurityGroupId
