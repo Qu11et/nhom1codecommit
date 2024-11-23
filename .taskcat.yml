@@ -6,28 +6,28 @@ project:
 
 tests:
   vpc-test:
-    template: vpc.yaml
+    template: modules/vpc.yaml
   subnet-test:
-    template: subnets.yaml
+    template: modules/subnets.yaml
     parameters:
       VPCId: Fn::GetAtt vpc-test.Outputs.VPCId
   securitygroup-test:
-    template: security_groups.yaml
+    template: modules/security_groups.yaml
     parameters:
       VPCId: Fn::GetAtt vpc-test.Outputs.VPCId
   natgateway-test:
-    template: natgateways.yaml
+    template: modules/natgateways.yaml
     parameters:
       PublicSubnetId: Fn::GetAtt subnet-test.Outputs.PublicSubnetId
   routetable-test:
-    template: route_tables.yaml
+    template: modules/route_tables.yaml
     parameters:
       VPCId: Fn::GetAtt vpc-test.Outputs.VPCId
       PublicSubnetId: Fn::GetAtt subnet-test.Outputs.PublicSubnetId
       PrivateSubnetId: Fn::GetAtt subnet-test.Outputs.PrivateSubnetId
       NATGatewayId: Fn::GetAtt natgateway-test.Outputs.NATGatewayId
   ec2-test:
-    template: ec2_instances.yaml
+    template: modules/ec2_instances.yaml
     parameters:
       PublicSubnetId: Fn::GetAtt subnet-test.Outputs.PublicSubnetId
       PrivateSubnetId: Fn::GetAtt subnet-test.Outputs.PrivateSubnetId
