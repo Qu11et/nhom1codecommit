@@ -27,7 +27,6 @@ Resources:
         VPCId: !GetAtt VPCStack.Outputs.VPCId
         PublicSubnetId: !GetAtt SubnetsStack.Outputs.PublicSubnetId
         PrivateSubnetId: !GetAtt SubnetsStack.Outputs.PrivateSubnetId
-        NATGatewayId: !GetAtt NATGatewayStack.Outputs.NATGatewayId
 
   EC2Stack:
     Type: AWS::CloudFormation::Stack
