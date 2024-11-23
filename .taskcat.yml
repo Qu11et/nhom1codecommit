@@ -9,26 +9,26 @@ tests:
   subnet-test:
     template: modules/subnets.yaml
     parameters:
-      VPCId: !GetAtt vpc-test.Outputs.VPCId
+      VPCId: !GetAtt vpc-test.VPCId
   securitygroup-test:
     template: modules/security_groups.yaml
     parameters:
-      VPCId: !GetAtt vpc-test.Outputs.VPCId
+      VPCId: !GetAtt vpc-test.VPCId
   natgateway-test:
     template: modules/natgateways.yaml
     parameters:
-      PublicSubnetId: !GetAtt subnet-test.Outputs.PublicSubnetId
+      PublicSubnetId: !GetAtt subnet-test.PublicSubnetId
   routetable-test:
     template: modules/route_tables.yaml
     parameters:
-      VPCId: !GetAtt vpc-test.Outputs.VPCId
-      PublicSubnetId: !GetAtt subnet-test.Outputs.PublicSubnetId
-      PrivateSubnetId: !GetAtt subnet-test.Outputs.PrivateSubnetId
-      NATGatewayId: !GetAtt natgateway-test.Outputs.NATGatewayId
+      VPCId: !GetAtt vpc-test.VPCId
+      PublicSubnetId: !GetAtt subnet-test.PublicSubnetId
+      PrivateSubnetId: !GetAtt subnet-test.PrivateSubnetId
+      NATGatewayId: !GetAtt natgateway-test.NATGatewayId
   ec2-test:
     template: modules/ec2_instances.yaml
     parameters:
-      PublicSubnetId: !GetAtt subnet-test.Outputs.PublicSubnetId
-      PrivateSubnetId: !GetAtt subnet-test.Outputs.PrivateSubnetId
-      PublicInstanceSecurityGroupId: !GetAtt securitygroup-test.Outputs.PublicInstanceSecurityGroupId
-      PrivateInstanceSecurityGroupId: !GetAtt securitygroup-test.Outputs.PrivateInstanceSecurityGroupId
+      PublicSubnetId: !GetAtt subnet-test.PublicSubnetId
+      PrivateSubnetId: !GetAtt subnet-test.PrivateSubnetId
+      PublicInstanceSecurityGroupId: !GetAtt securitygroup-test.PublicInstanceSecurityGroupId
+      PrivateInstanceSecurityGroupId: !GetAtt securitygroup-test.PrivateInstanceSecurityGroupId
