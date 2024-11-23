@@ -9,26 +9,26 @@ tests:
   subnet-test:
     template: modules/subnets.yaml
     parameters:
-      VPCId: Fn::GetAtt vpc-test.Outputs.VPCId
+      VPCId: Fn::GetAtt vpc-test.VPCId
   securitygroup-test:
     template: modules/security_groups.yaml
     parameters:
-      VPCId: Fn::GetAtt vpc-test.Outputs.VPCId
+      VPCId: Fn::GetAtt vpc-test.VPCId
   natgateway-test:
     template: modules/natgateways.yaml
     parameters:
-      PublicSubnetId: Fn::GetAtt subnet-test.Outputs.PublicSubnetId
+      PublicSubnetId: Fn::GetAtt subnet-test.PublicSubnetId
   routetable-test:
     template: modules/route_tables.yaml
     parameters:
-      VPCId: Fn::GetAtt vpc-test.Outputs.VPCId
-      PublicSubnetId: Fn::GetAtt subnet-test.Outputs.PublicSubnetId
-      PrivateSubnetId: Fn::GetAtt subnet-test.Outputs.PrivateSubnetId
-      NATGatewayId: Fn::GetAtt natgateway-test.Outputs.NATGatewayId
+      VPCId: Fn::GetAtt vpc-test.VPCId
+      PublicSubnetId: Fn::GetAtt subnet-test.PublicSubnetId
+      PrivateSubnetId: Fn::GetAtt subnet-test.PrivateSubnetId
+      NATGatewayId: Fn::GetAtt natgateway-test.NATGatewayId
   ec2-test:
     template: modules/ec2_instances.yaml
     parameters:
-      PublicSubnetId: Fn::GetAtt subnet-test.Outputs.PublicSubnetId
-      PrivateSubnetId: Fn::GetAtt subnet-test.Outputs.PrivateSubnetId
-      PublicInstanceSecurityGroupId: Fn::GetAtt securitygroup-test.Outputs.PublicInstanceSecurityGroupId
-      PrivateInstanceSecurityGroupId: Fn::GetAtt securitygroup-test.Outputs.PrivateInstanceSecurityGroupId
+      PublicSubnetId: Fn::GetAtt subnet-test.PublicSubnetId
+      PrivateSubnetId: Fn::GetAtt subnet-test.PrivateSubnetId
+      PublicInstanceSecurityGroupId: Fn::GetAtt securitygroup-test.PublicInstanceSecurityGroupId
+      PrivateInstanceSecurityGroupId: Fn::GetAtt securitygroup-test.PrivateInstanceSecurityGroupId
