@@ -23,7 +23,7 @@ Resources:
   PublicSubnet:
     Type: AWS::EC2::Subnet
     Properties:
-      VpcId: !Ref VPCId
+      VpcId: !ImportValue  VPCId
       AvailabilityZone: !Select [ 0, !GetAZs ]
       CidrBlock: !FindInMap
         - SubnetConfig
@@ -47,7 +47,7 @@ Resources:
   PrivateSubnet:
     Type: AWS::EC2::Subnet
     Properties:
-      VpcId: !Ref VPCId
+      VpcId: !ImportValue  VPCId
       AvailabilityZone: !Select [ 0, !GetAZs ]
       CidrBlock: !FindInMap
         - SubnetConfig

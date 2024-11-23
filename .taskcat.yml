@@ -9,26 +9,27 @@ tests:
   subnet-test:
     template: modules/subnets.yaml
     parameters:
-      VPCId: Fn::GetAtt vpc-test.VPCId
+      VPCId: !ImportValue VPCId
   securitygroup-test:
     template: modules/security_groups.yaml
     parameters:
-      VPCId: Fn::GetAtt vpc-test.VPCId
+      VPCId: !ImportValue VPCId
   natgateway-test:
     template: modules/natgateways.yaml
     parameters:
-      PublicSubnetId: Fn::GetAtt subnet-test.PublicSubnetId
+      PublicSubnetId: !ImportValue PublicSubnetId
   routetable-test:
     template: modules/route_tables.yaml
     parameters:
-      VPCId: Fn::GetAtt vpc-test.VPCId
-      PublicSubnetId: Fn::GetAtt subnet-test.PublicSubnetId
-      PrivateSubnetId: Fn::GetAtt subnet-test.PrivateSubnetId
-      NATGatewayId: Fn::GetAtt natgateway-test.NATGatewayId
+      VPCId: !ImportValue VPCId
+      PublicSubnetId: !ImportValue PublicSubnetId
+      PrivateSubnetId: !ImportValue PrivateSubnetId
+      NATGatewayId: !ImportValue NATGatewayId
   ec2-test:
     template: modules/ec2_instances.yaml
     parameters:
-      PublicSubnetId: Fn::GetAtt subnet-test.PublicSubnetId
-      PrivateSubnetId: Fn::GetAtt subnet-test.PrivateSubnetId
-      PublicInstanceSecurityGroupId: Fn::GetAtt securitygroup-test.PublicInstanceSecurityGroupId
-      PrivateInstanceSecurityGroupId: Fn::GetAtt securitygroup-test.PrivateInstanceSecurityGroupId
+      KeyName: nhom1keypair
+      PublicSubnetId: !ImportValue PublicSubnetId
+      PrivateSubnetId: !ImportValue PrivateSubnetId
+      PublicInstanceSecurityGroupId: !ImportValue PublicInstanceSecurityGroupId
+      PrivateInstanceSecurityGroupId: !ImportValue PrivateInstanceSecurityGroupId

@@ -15,7 +15,7 @@ Resources:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       GroupDescription: Allow SSH access from a specific IP
-      VpcId: !Ref VPCId
+      VpcId: !ImportValue VPCId
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: '22'
@@ -26,7 +26,7 @@ Resources:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       GroupDescription: Allow SSH access from the public instance
-      VpcId: !Ref VPCId
+      VpcId: !ImportValue VPCId
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: '22'

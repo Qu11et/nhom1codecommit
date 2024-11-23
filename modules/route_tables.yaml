@@ -34,13 +34,13 @@ Resources:
   GatewayToInternet:
     Type: AWS::EC2::VPCGatewayAttachment
     Properties:
-      VpcId: !Ref VPCId
+      VpcId: !ImportValue VPCId
       InternetGatewayId: !GetAtt InternetGateway.InternetGatewayId
 
   PublicRouteTable:
     Type: AWS::EC2::RouteTable
     Properties:
-      VpcId: !Ref VPCId
+      VpcId: !ImportValue VPCId
       Tags:
         - Key: Application
           Value: !Ref AWS::StackName
@@ -63,13 +63,13 @@ Resources:
   PublicSubnetRouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
-      SubnetId: !Ref PublicSubnetId
+      SubnetId: !ImportValue PublicSubnetId
       RouteTableId: !Ref PublicRouteTable
 
   PrivateRouteTable:
     Type: AWS::EC2::RouteTable
     Properties:
-      VpcId: !Ref VPCId
+      VpcId: !ImportValue VPCId
       Tags:
         - Key: Name
           Value: !Join
@@ -82,12 +82,12 @@ Resources:
     Properties:
       RouteTableId: !Ref PrivateRouteTable
       DestinationCidrBlock: 0.0.0.0/0
-      NatGatewayId: !Ref NATGatewayId
+      NatGatewayId: !ImportValue NATGatewayId
 
   PrivateSubnetRouteTableAssociation0:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
-      SubnetId: !Ref PrivateSubnetId
+      SubnetId: !ImportValue PrivateSubnetId
       RouteTableId: !Ref PrivateRouteTable
 
 Outputs:

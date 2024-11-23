@@ -26,9 +26,9 @@ Resources:
       NetworkInterfaces:
         - AssociatePublicIpAddress: true
           DeviceIndex: '0'
-          SubnetId: !Ref PublicSubnetId
+          SubnetId: !ImportValue PublicSubnetId
           GroupSet:
-            - !Ref PublicInstanceSecurityGroupId
+            - !ImportValue PublicInstanceSecurityGroupId
 
   PrivateInstance:
     Type: 'AWS::EC2::Instance'
@@ -38,9 +38,9 @@ Resources:
       ImageId: ami-014d544cfef21b42d # Replace with a valid AMI ID
       NetworkInterfaces:
         - DeviceIndex: '0'
-          SubnetId: !Ref PrivateSubnetId
+          SubnetId: !ImportValue PrivateSubnetId
           GroupSet:
-            - !Ref PrivateInstanceSecurityGroupId
+            - !ImportValue PrivateInstanceSecurityGroupId
 
 Outputs:
   PublicInstanceId:
