@@ -2,32 +2,31 @@ project:
   name: cloudformation-template-tests
   regions:
     - us-east-1
-  s3_bucket: nhom1awsbucket  # Tên bucket S3 chứa các file template
 
 tests:
   vpc-test:
-    template: vpc.yaml
+    template: modules/vpc.yaml
   subnet-test:
-    template: subnets.yaml
+    template: modules/subnets.yaml
     parameters:
       VPCId: !GetAtt vpc-test.Outputs.VPCId
   securitygroup-test:
-    template: security_groups.yaml
+    template: modules/security_groups.yaml
     parameters:
       VPCId: !GetAtt vpc-test.Outputs.VPCId
   natgateway-test:
-    template: natgateways.yaml
+    template: modules/natgateways.yaml
     parameters:
       PublicSubnetId: !GetAtt subnet-test.Outputs.PublicSubnetId
   routetable-test:
-    template: route_tables.yaml
+    template: modules/route_tables.yaml
     parameters:
       VPCId: !GetAtt vpc-test.Outputs.VPCId
       PublicSubnetId: !GetAtt subnet-test.Outputs.PublicSubnetId
       PrivateSubnetId: !GetAtt subnet-test.Outputs.PrivateSubnetId
       NATGatewayId: !GetAtt natgateway-test.Outputs.NATGatewayId
   ec2-test:
-    template: ec2_instances.yaml
+    template: modules/ec2_instances.yaml
     parameters:
       PublicSubnetId: !GetAtt subnet-test.Outputs.PublicSubnetId
       PrivateSubnetId: !GetAtt subnet-test.Outputs.PrivateSubnetId
