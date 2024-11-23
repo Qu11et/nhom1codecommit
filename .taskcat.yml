@@ -1,8 +1,7 @@
 project:
   name: cloudformation-template-tests
   regions:
-    - us-east-1
-  s3_bucket: nhom1awsbucket  # Tên bucket S3 chứa các file template
+    - us-east-1 
 
 tests:
   vpc-test:
