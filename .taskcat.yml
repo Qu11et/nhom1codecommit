@@ -2,34 +2,7 @@ project:
   name: cloudformation-template-tests
   regions:
     - us-east-1 
-
+  s3_bucket: group1awsbucket
 tests:
-  vpc-test:
-    template: modules/vpc.yaml
-  subnet-test:
-    template: modules/subnets.yaml
-    parameters:
-      VPCId: !ImportValue VPCId
-  securitygroup-test:
-    template: modules/security_groups.yaml
-    parameters:
-      VPCId: !ImportValue VPCId
-  natgateway-test:
-    template: modules/natgateways.yaml
-    parameters:
-      PublicSubnetId: !ImportValue PublicSubnetId
-  routetable-test:
-    template: modules/route_tables.yaml
-    parameters:
-      VPCId: !ImportValue VPCId
-      PublicSubnetId: !ImportValue PublicSubnetId
-      PrivateSubnetId: !ImportValue PrivateSubnetId
-      NATGatewayId: !ImportValue NATGatewayId
-  ec2-test:
-    template: modules/ec2_instances.yaml
-    parameters:
-      KeyName: nhom1keypair
-      PublicSubnetId: !ImportValue PublicSubnetId
-      PrivateSubnetId: !ImportValue PrivateSubnetId
-      PublicInstanceSecurityGroupId: !ImportValue PublicInstanceSecurityGroupId
-      PrivateInstanceSecurityGroupId: !ImportValue PrivateInstanceSecurityGroupId
+  main-stack-test:
+    template: main.yaml
