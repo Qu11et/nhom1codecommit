@@ -7,13 +7,15 @@ Parameters:
     Description: The IP address from which SSH access is allowed
     Type: String
     Default: 0.0.0.0/0  # Replace with the specific IP or CIDR block
+  VPCId:
+    Type: String
 
 Resources:
   PublicInstanceSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       GroupDescription: Allow SSH access from a specific IP
-      VpcId: !ImportValue VPCId
+      VpcId: !Ref VPCId
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: '22'
@@ -24,7 +26,7 @@ Resources:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       GroupDescription: Allow SSH access from the public instance
-      VpcId: !ImportValue VPCId
+      VpcId: !Ref VPCId
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: '22'

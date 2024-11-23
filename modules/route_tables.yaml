@@ -7,6 +7,14 @@ Parameters:
     Description: The name of the VPC being created.
     Type: String
     Default: VPC Public and Private with NAT
+  VPCId:
+    Type: String
+  PublicSubnetId:
+    Type: String
+  PrivateSubnetId:
+    Type: String
+  NATGatewayId:
+    Type: String  
 
 Resources:
   InternetGateway:
@@ -26,13 +34,13 @@ Resources:
   GatewayToInternet:
     Type: AWS::EC2::VPCGatewayAttachment
     Properties:
-      VpcId: !ImportValue VPCId
+      VpcId: !Ref VPCId
       InternetGatewayId: !GetAtt InternetGateway.InternetGatewayId
 
   PublicRouteTable:
     Type: AWS::EC2::RouteTable
     Properties:
-      VpcId: !ImportValue VPCId
+      VpcId: !Ref VPCId
       Tags:
         - Key: Application
           Value: !Ref AWS::StackName
@@ -55,13 +63,13 @@ Resources:
   PublicSubnetRouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
-      SubnetId: !ImportValue PublicSubnetId
+      SubnetId: !Ref PublicSubnetId
       RouteTableId: !Ref PublicRouteTable
 
   PrivateRouteTable:
     Type: AWS::EC2::RouteTable
     Properties:
-      VpcId: !ImportValue VPCId
+      VpcId: !Ref VPCId
       Tags:
         - Key: Name
           Value: !Join
@@ -74,12 +82,12 @@ Resources:
     Properties:
       RouteTableId: !Ref PrivateRouteTable
       DestinationCidrBlock: 0.0.0.0/0
-      NatGatewayId: !ImportValue NATGatewayId
+      NatGatewayId: !Ref NATGatewayId
 
   PrivateSubnetRouteTableAssociation0:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
-      SubnetId: !ImportValue PrivateSubnetId
+      SubnetId: !Ref PrivateSubnetId
       RouteTableId: !Ref PrivateRouteTable
 
 Outputs:

@@ -7,6 +7,8 @@ Parameters:
     Description: The name of the VPC being created.
     Type: String
     Default: VPC Public and Private with NAT
+  VPCId:
+    Type: String
 
 Mappings:
   SubnetConfig:
@@ -21,7 +23,7 @@ Resources:
   PublicSubnet:
     Type: AWS::EC2::Subnet
     Properties:
-      VpcId: !ImportValue VPCId
+      VpcId: !Ref VPCId
       AvailabilityZone: !Select [ 0, !GetAZs ]
       CidrBlock: !FindInMap
         - SubnetConfig
@@ -45,7 +47,7 @@ Resources:
   PrivateSubnet:
     Type: AWS::EC2::Subnet
     Properties:
-      VpcId: !ImportValue VPCId
+      VpcId: !Ref VPCId
       AvailabilityZone: !Select [ 0, !GetAZs ]
       CidrBlock: !FindInMap
         - SubnetConfig

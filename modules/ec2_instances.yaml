@@ -6,6 +6,14 @@ Parameters:
     Description: Name of an existing EC2 KeyPair to enable SSH access to the instances
     Type: AWS::EC2::KeyPair::KeyName
     ConstraintDescription: must be the name of an existing EC2 KeyPair.
+  PublicSubnetId:
+    Type: String
+  PublicInstanceSecurityGroupId:
+    Type: String
+  PrivateSubnetId:
+    Type: String
+  PrivateInstanceSecurityGroupId:
+    Type: String  
 
 Resources:
   PublicInstance:
@@ -17,9 +25,9 @@ Resources:
       NetworkInterfaces:
         - AssociatePublicIpAddress: true
           DeviceIndex: '0'
-          SubnetId: !ImportValue PublicSubnetId
+          SubnetId: !Ref PublicSubnetId
           GroupSet:
-            - !ImportValue PublicInstanceSecurityGroupId
+            - !Ref PublicInstanceSecurityGroupId
 
   PrivateInstance:
     Type: 'AWS::EC2::Instance'
@@ -29,9 +37,9 @@ Resources:
       ImageId: ami-014d544cfef21b42d # Replace with a valid AMI ID
       NetworkInterfaces:
         - DeviceIndex: '0'
-          SubnetId: !ImportValue PrivateSubnetId
+          SubnetId: !Ref PrivateSubnetId
           GroupSet:
-            - !ImportValue PrivateInstanceSecurityGroupId
+            - !Ref PrivateInstanceSecurityGroupId
 
 Outputs:
   PublicInstanceId:
