@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  VPCStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://nhom1awsbucket.s3.us-east-1.amazonaws.com/vpc.yaml
+
+  SubnetsStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://nhom1awsbucket.s3.us-east-1.amazonaws.com/subnets.yaml
+      Parameters:
+        VPCId: !GetAtt VPCStack.Outputs.VPCId
+
+  SecurityGroupsStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://nhom1awsbucket.s3.us-east-1.amazonaws.com/security_groups.yaml
+      Parameters:
+        VPCId: !GetAtt VPCStack.Outputs.VPCId      
+
+  NATGatewayStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://nhom1awsbucket.s3.us-east-1.amazonaws.com/natgateways.yaml
+      Parameters:
+        PublicSubnetId: !GetAtt SubnetsStack.Outputs.PublicSubnetId
+
+  RouteTableStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://nhom1awsbucket.s3.us-east-1.amazonaws.com/route_tables.yaml
+      Parameters:
+        VPCId: !GetAtt VPCStack.Outputs.VPCId
+        PublicSubnetId: !GetAtt SubnetsStack.Outputs.PublicSubnetId
+        PrivateSubnetId: !GetAtt SubnetsStack.Outputs.PrivateSubnetId
+        NATGatewayId: !GetAtt NATGatewayStack.Outputs.NATGatewayId
+
+  EC2Stack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://nhom1awsbucket.s3.us-east-1.amazonaws.com/ec2_instances.yaml
+      Parameters:
+        PublicSubnetId: !GetAtt SubnetsStack.Outputs.PublicSubnetId
+        PrivateSubnetId: !GetAtt SubnetsStack.Outputs.PrivateSubnetId
+        PublicInstanceSecurityGroupId: !GetAtt SecurityGroupsStack.Outputs.PublicInstanceSecurityGroupId
+        PrivateInstanceSecurityGroupId: !GetAtt SecurityGroupsStack.Outputs.PrivateInstanceSecurityGroupId

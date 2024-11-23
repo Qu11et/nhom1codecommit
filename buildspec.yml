@@ -1,0 +1,28 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.x
+    commands:
+      - pip install --upgrade pip
+      - pip install cfn-lint  # Cài đặt cfn-lint
+  pre_build:
+    commands:
+      - echo "Running cfn-lint to validate CloudFormation templates..."
+      - |
+        for template in $(find . -name '*.yaml' -or -name '*.yml'); do
+          echo "Linting $template"
+          cfn-lint $template
+        done
+  build:
+    commands:
+      - echo "Proceeding to Taskcat testing..."
+      - taskcat test run  # Tiếp tục chạy taskcat (nếu có)
+  post_build:
+    commands:
+      - echo "Build process completed."
+artifacts:
+  files:
+    - "**/*"
+  discard-paths: no
