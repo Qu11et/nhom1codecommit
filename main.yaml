@@ -19,13 +19,6 @@ Resources:
       Parameters:
         VPCId: !GetAtt VPCStack.Outputs.VPCId      
 
-  NATGatewayStack:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: https://group1awsbucket.s3.us-east-1.amazonaws.com/natgateways.yaml
-      Parameters:
-        PublicSubnetId: !GetAtt SubnetsStack.Outputs.PublicSubnetId
-
   RouteTableStack:
     Type: AWS::CloudFormation::Stack
     Properties:
