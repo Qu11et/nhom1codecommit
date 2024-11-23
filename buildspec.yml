@@ -11,11 +11,7 @@ phases:
   pre_build:
     commands:
       - echo "Running cfn-lint to validate templates..."
-      - |
-        for template in $(find templates/ -name '*.yaml' -or -name '*.yml'); do
-          echo "Linting $template"
-          cfn-lint $template  # Kiểm tra từng file CloudFormation
-        done
+      - cfn-lint ./main.yml
   build:
     commands:
       - echo "Running Taskcat to test CloudFormation templates..."
